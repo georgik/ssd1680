@@ -105,14 +105,14 @@ pub trait Display: DrawTarget<BinaryColor> {
 
 /// Display for a 122x250 panel
 pub struct Display2in13 {
-    buffer: [u8;  buffer_len(WIDTH as usize, HEIGHT as usize)],
+    buffer: [u8;  buffer_len(WIDTH as usize, HEIGHT as usize)+50],
     rotation: DisplayRotation,
     is_inverted: bool,
 }
 
 impl Display2in13 {
     /// Create a black & white display buffer
-    pub fn bw_with_buffer(buffer:[u8;  buffer_len(WIDTH as usize, HEIGHT as usize)]) -> Self {
+    pub fn bw_with_buffer(buffer:[u8;  buffer_len(WIDTH as usize, HEIGHT as usize)+50]) -> Self {
         Display2in13 {
             buffer,
             rotation: DisplayRotation::default(),
@@ -124,7 +124,7 @@ impl Display2in13 {
     pub fn red() -> Self {
         Display2in13 {
             buffer: [Color::White.inverse().get_byte_value();
-                buffer_len(WIDTH as usize, HEIGHT as usize)],
+                buffer_len(WIDTH as usize, HEIGHT as usize)+50],
             rotation: DisplayRotation::default(),
             is_inverted: false,
         }
