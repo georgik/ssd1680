@@ -112,9 +112,9 @@ pub struct Display2in13 {
 
 impl Display2in13 {
     /// Create a black & white display buffer
-    pub fn bw() -> Self {
+    pub fn bw_with_buffer(buffer:[u8;  buffer_len(WIDTH as usize, HEIGHT as usize)]) -> Self {
         Display2in13 {
-            buffer: [Color::White.get_byte_value(); buffer_len(WIDTH as usize, HEIGHT as usize)],
+            buffer,
             rotation: DisplayRotation::default(),
             is_inverted: true,
         }
