@@ -102,33 +102,37 @@ pub trait Display: DrawTarget<BinaryColor> {
         Ok(())
     }
 }
-
+extern crate alloc;
+use alloc::vec::Vec;
 /// Display for a 122x250 panel
 pub struct Display2in13 {
-    buffer: [u8;  buffer_len(WIDTH as usize, HEIGHT as usize)+50],
+    buffer: Vec<u8>,
     rotation: DisplayRotation,
     is_inverted: bool,
 }
 
 impl Display2in13 {
     /// Create a black & white display buffer
-    pub fn bw_with_buffer(buffer:[u8;  buffer_len(WIDTH as usize, HEIGHT as usize)+50]) -> Self {
-        Display2in13 {
+    pub fn bw_with_buffer(buffer: Vec<u8>) -> Result<Self, &'static str> {  // Change this line
+        if buffer.len() != buffer_len(WIDTH as usize, HEIGHT as usize) {
+            return Err("Incorrect buffer size");
+        }
+        Ok(Display2in13 {
             buffer,
             rotation: DisplayRotation::default(),
             is_inverted: true,
-        }
+        })
     }
 
-    /// Create a red display buffer
-    pub fn red() -> Self {
-        Display2in13 {
-            buffer: [Color::White.inverse().get_byte_value();
-                buffer_len(WIDTH as usize, HEIGHT as usize)+50],
-            rotation: DisplayRotation::default(),
-            is_inverted: false,
-        }
-    }
+    // Create a red display buffer
+    // pub fn red() -> Self {
+    //     Display2in13 {
+    //         buffer: [Color::White.inverse().get_byte_value();
+    //             buffer_len(WIDTH as usize, HEIGHT as usize)],
+    //         rotation: DisplayRotation::default(),
+    //         is_inverted: false,
+    //     }
+    // }
 }
 
 impl DrawTarget<BinaryColor> for Display2in13 {
